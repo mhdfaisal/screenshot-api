@@ -14,7 +14,13 @@ app.get("/screenshot", (req, res) => {
           "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
         )
       ) {
-        res.status(200).json(`data:image/png;base64, ${screenshot}`);
+        var img = new Buffer(screenshot, 'base64');
+        // res.status(200).json(`data:image/png;base64, ${screenshot}`);
+        res.writeHead(200, {
+          'Content-Type': 'image/png',
+          'Content-Length': img.length
+        });
+        res.end(img); 
       } else {
         res.status(500).json("Unable to take screenshot");
       }
