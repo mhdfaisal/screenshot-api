@@ -25,6 +25,7 @@ app.get("/screenshot", (req, res) => {
 });
 
 const takeScreenshot = async url => {
+  //heroku deployment fix
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
