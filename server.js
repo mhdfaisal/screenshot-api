@@ -2,6 +2,7 @@ var express = require("express");
 var cors = require("cors");
 const puppeteer = require("puppeteer");
 var app = express();
+var randomUseragent = require('random-useragent');
 app.use(cors());
 
 app.get("/screenshot", (req, res) => {
@@ -35,9 +36,10 @@ const takeScreenshot = async url => {
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
-  const page = await browser.newPage();
+  const page = await browser.newPage({ timeout: 0 });
   await page.setViewport({ width: 1080, height: 720 });
-  await page.goto(url);
+  await page.setUserAgent(randomUseragent.getRandom())
+  await page.goto(url, { waitUntil: "networkidle0", timeout: 0 });
   try {
     const screenshot = await page.screenshot({
       omitBackground: true,
