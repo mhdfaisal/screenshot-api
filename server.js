@@ -44,8 +44,7 @@ const takeScreenshot = async url => {
     const screenshot = await page.screenshot({
       omitBackground: true,
       encoding: "base64",
-      type: "jpeg",
-      quality: 60
+      type: "png"
     });
     await browser.close();
     return screenshot;
